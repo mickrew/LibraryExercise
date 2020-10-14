@@ -6,14 +6,14 @@ public class BookShop {
     private ArrayList<Book> Library = new ArrayList<Book>();
     private static Connection conn = null;
 
-    public void readBooks() throws SQLException {​​​​
+    public void readBooks() throws SQLException {
 
         Statement stmt = conn.createStatement();
         stmt.execute("SELECT * FROM Book");
 
         ResultSet rs = stmt.getResultSet();
 
-        while (rs.next()){​​​​
+        while (rs.next()){
             System.out.print(rs.getInt("ISBN"));
             System.out.print(" ");
             System.out.print(rs.getString("Title"));
@@ -27,11 +27,11 @@ public class BookShop {
             System.out.print(rs.getInt("Year"));
             System.out.print(" ");
             System.out.println(rs.getInt("Copies"));
-        }​​​​
+        }
 
         rs.close();
         stmt.close();
-    }​​​​
+    }
 
     public static void insertBook() throws SQLException {
         Scanner sc = new Scanner(System.in);
@@ -79,7 +79,7 @@ public class BookShop {
         ps.execute();
     }
 
-    public static void readAuthors() throws SQLException {​​​​
+    public static void readAuthors() throws SQLException {
 
         Statement stmt = conn.createStatement();
 
@@ -87,17 +87,17 @@ public class BookShop {
 
         ResultSet rs = stmt.getResultSet();
 
-        while (rs.next()){​​​​
+        while (rs.next()){
             System.out.print(rs.getString("CF"));
             System.out.print(" ");
             System.out.print(rs.getString("Last Name"));
             System.out.print(" ");
             System.out.println(rs.getString("First Name"));
-        }​​​​
+        }
 
         rs.close();
         stmt.close();
-    }​​​​
+    }
 
     public static void insertAuthor() throws SQLException {
         Scanner sc = new Scanner(System.in);
@@ -130,23 +130,23 @@ public class BookShop {
         ps.execute();
     }
 
-    public static void readPublishers() throws SQLException {​​​​
+    public static void readPublishers() throws SQLException {
 
         Statement stmt = conn.createStatement();
         stmt.execute("SELECT * FROM Publisher");
 
         ResultSet rs = stmt.getResultSet();
 
-        while (rs.next()){​​​​
+        while (rs.next()){
             System.out.print(rs.getString("Name"));
             System.out.print(" ");
             System.out.println(rs.getString("Location"));
-        }​​​​
+        }
 
         rs.close();
         stmt.close();
 
-    }​​​​
+    }
 
     public static void insertPublisher() throws SQLException {
         Scanner sc = new Scanner(System.in);
