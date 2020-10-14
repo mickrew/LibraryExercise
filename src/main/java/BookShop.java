@@ -1,15 +1,17 @@
+package main.java;
+
+import java.awt.print.Book;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class BookShop {
-    private ArrayList<Book> Library = new ArrayList<Book>();
     private static Connection conn = null;
 
-    public void readBooks() throws SQLException {
+    public static void readBooks() throws SQLException {
 
         Statement stmt = conn.createStatement();
-        stmt.execute("SELECT * FROM Book");
+        stmt.execute("SELECT * FROM book");
 
         ResultSet rs = stmt.getResultSet();
 
@@ -34,47 +36,47 @@ public class BookShop {
     }
 
     public static void insertBook() throws SQLException {
-        Scanner sc = new Scanner(System.in);
-        String info = sc.nextLine();
-        PreparedStatement ps = conn.prepareStatement("INSERT INTO Book VALUES (?, ?, ?, ?, ?, ?, ?)");
-        int i = 1;
-        System.out.println("Title book: ");
-        ps.setString(i++,info);
-        System.out.println("ISBN: ");
-        ps.setInt(i++,Integer.parseInt(info));
-        System.out.println("Price: ");
-        ps.setDouble(i++,Double.parseDouble(info));
-        System.out.println("Pages: ");
-        ps.setInt(i++,Integer.parseInt(info));
-        System.out.println("Category: ");
-        ps.setString(i++,info);
-        System.out.println("Year: ");
-        ps.setInt(i++,Integer.parseInt(info));
-        System.out.println("Copies: ");
-        ps.setInt(i++,Integer.parseInt(info));
+        Book book = new Book();
+        Scanner sc1 = new Scanner(System.in);
 
+        PreparedStatement ps = conn.prepareStatement("INSERT INTO book VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        int i = 1;
+        System.out.println("ISBN: ");
+        ps.setInt(i++,Integer.parseInt(sc1.nextLine()));
+        System.out.println("Title book: ");
+        ps.setString(i++,sc1.nextLine());
+        System.out.println("Price: ");
+        ps.setDouble(i++,Double.parseDouble(sc1.nextLine()));
+        System.out.println("Pages: ");
+        ps.setInt(i++,Integer.parseInt(sc1.nextLine()));
+        System.out.println("Category: ");
+        ps.setString(i++,sc1.nextLine());
+        System.out.println("Year: ");
+        ps.setInt(i++,Integer.parseInt(sc1.nextLine()));
+        System.out.println("Copies: ");
+        ps.setInt(i++,Integer.parseInt(sc1.nextLine()));
+        System.out.println("Publisher: ");
+        ps.setString(i++,sc1.nextLine());
         ps.execute();
 
     }
 
     public static void deleteBook() throws SQLException {
         Scanner sc = new Scanner(System.in);
-        String info = sc.nextLine();
-        PreparedStatement ps = conn.prepareStatement("DELETE FROM Book WHERE ISBN = ? ");
+        PreparedStatement ps = conn.prepareStatement("DELETE FROM book WHERE ISBN = ? ");
         System.out.println("ISBN: ");
-        ps.setInt(1,Integer.parseInt(info));
+        ps.setInt(1,Integer.parseInt(sc.nextLine()));
 
         ps.execute();
     }
 
     public static void updateQuantity() throws SQLException {
         Scanner sc = new Scanner(System.in);
-        String info = sc.nextLine();
-        PreparedStatement ps = conn.prepareStatement("UPDATE Book SET Quantity = Quantity + ? WHERE ISBN = ? ");
+        PreparedStatement ps = conn.prepareStatement("UPDATE book SET copies = copies + ? WHERE ISBN = ? ");
         System.out.println("ISBN: ");
-        ps.setInt(2,Integer.parseInt(info));
+        ps.setInt(2,Integer.parseInt(sc.nextLine()));
         System.out.println("Quantity: ");
-        ps.setInt(1,Integer.parseInt(info));
+        ps.setInt(1,Integer.parseInt(sc.nextLine()));
 
         ps.execute();
     }
@@ -83,16 +85,16 @@ public class BookShop {
 
         Statement stmt = conn.createStatement();
 
-        stmt.execute("SELECT * FROM Author");
+        stmt.execute("SELECT * FROM author");
 
         ResultSet rs = stmt.getResultSet();
 
         while (rs.next()){
             System.out.print(rs.getString("CF"));
             System.out.print(" ");
-            System.out.print(rs.getString("Last Name"));
+            System.out.print(rs.getString("name"));
             System.out.print(" ");
-            System.out.println(rs.getString("First Name"));
+            System.out.println(rs.getString("surname"));
         }
 
         rs.close();
@@ -101,15 +103,14 @@ public class BookShop {
 
     public static void insertAuthor() throws SQLException {
         Scanner sc = new Scanner(System.in);
-        String info = sc.nextLine();
-        PreparedStatement ps = conn.prepareStatement("INSERT INTO Author VALUES (?, ?, ?)");
+        PreparedStatement ps = conn.prepareStatement("INSERT INTO author VALUES (?, ?, ?)");
         int i = 1;
         System.out.println("Name: ");
-        ps.setString(i++,info);
+        ps.setString(2,sc.nextLine());
         System.out.println("Surname: ");
-        ps.setString(i++,info);
+        ps.setString(3,sc.nextLine());
         System.out.println("CF: ");
-        ps.setString(i++,info);
+        ps.setString(1,sc.nextLine());
 
         ps.execute();
 
@@ -117,15 +118,14 @@ public class BookShop {
 
     public static void deleteAuthor() throws SQLException {
         Scanner sc = new Scanner(System.in);
-        String info = sc.nextLine();
-        PreparedStatement ps = conn.prepareStatement("DELETE FROM Author WHERE  (?, ?, ?)");
+        PreparedStatement ps = conn.prepareStatement("DELETE FROM author WHERE  (?, ?, ?)");
         int i = 1;
         System.out.println("Name: ");
-        ps.setString(i++,info);
+        ps.setString(i++,sc.nextLine());
         System.out.println("Surname: ");
-        ps.setString(i++,info);
+        ps.setString(i++,sc.nextLine());
         System.out.println("CF: ");
-        ps.setString(i++,info);
+        ps.setString(i++,sc.nextLine());
 
         ps.execute();
     }
@@ -133,7 +133,7 @@ public class BookShop {
     public static void readPublishers() throws SQLException {
 
         Statement stmt = conn.createStatement();
-        stmt.execute("SELECT * FROM Publisher");
+        stmt.execute("SELECT * FROM publisher");
 
         ResultSet rs = stmt.getResultSet();
 
@@ -150,13 +150,12 @@ public class BookShop {
 
     public static void insertPublisher() throws SQLException {
         Scanner sc = new Scanner(System.in);
-        String info = sc.nextLine();
         PreparedStatement ps = conn.prepareStatement("INSERT INTO Publisher VALUES (?, ?)");
         int i = 1;
         System.out.println("Name: ");
-        ps.setString(i++,info);
+        ps.setString(i++,sc.nextLine());
         System.out.println("Location: ");
-        ps.setString(i++,info);
+        ps.setString(i++,sc.nextLine());
 
         ps.execute();
 
@@ -164,11 +163,10 @@ public class BookShop {
 
     public static void deletePublisher() throws SQLException {
         Scanner sc = new Scanner(System.in);
-        String info = sc.nextLine();
         PreparedStatement ps = conn.prepareStatement("DELETE FROM Publisher WHERE Name = ?");
         int i = 1;
         System.out.println("Name: ");
-        ps.setString(i++,info);
+        ps.setString(i++,sc.nextLine());
 
         ps.execute();
     }
@@ -182,31 +180,25 @@ public class BookShop {
         String connStr = "jdbc:mysql://localhost:3306/BookShop?user=root&password=root";
         while (quit) {
 
-            System.out.println("1 Insert a new book\n" +
-                    "\n" +
+            System.out.println(
+                    " \n •1 Insert a new book\n" +
                     " •2 Remove a book\n" +
-                    "\n" +
                     " •3 Update the quantity of a book\n" +
-                    "\n" +
                     " •4 Read the list of the authors\n" +
-                    "\n" +
                     " •5 Insert an author\n" +
-                    "\n" +
                     " •6 Delete an author\n" +
-                    "\n" +
                     " •7 Read the list of the publishers\n" +
-                    "\n" +
-                    " •8 Insert a publisher;\n" +
-                    "\n" +
-                    " •9 Delete a publisher" +
-                    "\n" + " •0 Quit");
+                    " •8 Insert a publisher\n" +
+                    " •9 Delete a publisher\n" +
+                    " •10 View all books\n" +
+                    " •0 Quit" );
 
 
             Scanner sc = new Scanner(System.in);
             int i = sc.nextInt();
 
            try {
-               conn = DriverManager.getConnection(connStr);
+               conn = DriverManager.getConnection("jdbc:mysql://localhost/BookShop?" + "zeroDateTimeBehavior =CONVERT_TO_NULL&serverTimezone=CET", "root", "root" );
            } catch (SQLException ex) {
                System.out.println("SQLException: " + ex.getMessage());
                System.out.println("SQLState: " + ex.getSQLState());
@@ -244,11 +236,12 @@ public class BookShop {
                 case 0:
                     quit=false;
                     break;
+                case 10:
+                    BookShop.readBooks();
+                    break;
                 default:
                     break;
-
             }
-
             conn.close();
 
         }

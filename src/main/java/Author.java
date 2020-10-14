@@ -1,5 +1,4 @@
-import org.w3c.dom.css.CSSUnknownRule;
-
+package main.java;
 public class Author {
     private String name;
     private String surname;
