@@ -17,6 +17,10 @@ public class Book {
         this.copies=copies;
     }
 
+    public Book() {
+
+    }
+
     public String getTitle() {
         return title;
     }
