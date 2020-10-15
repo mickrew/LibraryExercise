@@ -99,6 +99,10 @@ public class BookShop {
 
         rs.close();
         stmt.close();
+
+        System.out.println("Premi un pulsante per continuare");
+        Scanner sc = new Scanner(System.in);
+        sc.nextLine();
     }
 
     public static void insertAuthor() throws SQLException {
@@ -162,12 +166,18 @@ public class BookShop {
     }
 
     public static void deletePublisher() throws SQLException {
-        Scanner sc = new Scanner(System.in);
-        PreparedStatement ps = conn.prepareStatement("DELETE FROM Publisher WHERE Name = ?");
+        System.out.println("publisherName: ");
+        Scanner sc0 = new Scanner(System.in);
+        PreparedStatement ps0 = conn.prepareStatement("SET FOREIGN_KEY_CHECKS = 0; ");
         int i = 1;
-        System.out.println("Name: ");
-        ps.setString(i++,sc.nextLine());
+        ps0.execute();
+        String name = sc0.nextLine();
+        PreparedStatement ps1 = conn.prepareStatement("DELETE FROM Book WHERE publisherName = ? ");
+        ps1.setString(i,name);
+        ps1.execute();
 
+        PreparedStatement ps = conn.prepareStatement("DELETE FROM Publisher WHERE name = ? ");
+        ps.setString(i,name);
         ps.execute();
     }
 
@@ -177,7 +187,7 @@ public class BookShop {
     public static void main(String args[]) throws SQLException {
 
         Boolean quit = true;
-        String connStr = "jdbc:mysql://localhost:3306/BookShop?user=root&password=root";
+        String connStr = "jdbc:mysql://localhost:3306/BookShop?user=root&password=studenti";
         while (quit) {
 
             System.out.println(
@@ -198,7 +208,7 @@ public class BookShop {
             int i = sc.nextInt();
 
            try {
-               conn = DriverManager.getConnection("jdbc:mysql://localhost/BookShop?" + "zeroDateTimeBehavior =CONVERT_TO_NULL&serverTimezone=CET", "root", "root" );
+               conn = DriverManager.getConnection("jdbc:mysql://localhost/BookShop?" + "zeroDateTimeBehavior =CONVERT_TO_NULL&serverTimezone=CET", "root", "studenti" );
            } catch (SQLException ex) {
                System.out.println("SQLException: " + ex.getMessage());
                System.out.println("SQLState: " + ex.getSQLState());
