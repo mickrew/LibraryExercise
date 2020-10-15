@@ -10,6 +10,9 @@ public class Author {
         this.CF=CF;
     }
 
+    public Author(){
+    }
+
     public String getName() {
         return name;
     }
